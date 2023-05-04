@@ -10,7 +10,9 @@ const PORT = process.env.PORT || 8000;
 const express = require('express');
 const connectToDb = require('./config/connectToDb');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const stocksController = require('./controllers/stocksController');
+const usersController = require('./controllers/usersController');
 
 
 // create an express app
@@ -21,9 +23,15 @@ connectToDb();
 
 // configure express app
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
-// routing
+// routing for users
+app.post('/signup', usersController.signup);
+app.post('/login', usersController.login);
+app.get('/logout', usersController.logout);
+
+// routing for stocks
 app.get('/stocks', stocksController.fetchStocks);
 app.get('/stocks/:id', stocksController.fetchStock);
 app.post('/stocks', stocksController.createStock);
