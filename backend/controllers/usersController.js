@@ -17,41 +17,59 @@ async function signup(req, res) {
     res.sendStatus(200);
   } catch (err) {
     console.log(err);
-    res.sendStatus(400);
+    return res.sendStatus(400);
   }
 }
 
 async function login(req, res) {
-  // get the email and password from req body
-  const { username, password} = req.body;
+  try {
+    // get the email and password from req body
+    const { username, password} = req.body;
 
-  // find the user with the requested username
-  const user = await User.findOne({ username });
-  if (!user) return res.sendStatus(401);
+    // find the user with the requested username
+    const user = await User.findOne({ username });
+    if (!user) return res.sendStatus(401);
 
-  // compare the sent in password with the found user password hash
-  const passwordMatch = bcrypt.compareSync(password, user.password)
-  if (!passwordMatch) return res.sendStatus(401);
+    // compare the sent in password with the found user password hash
+    const passwordMatch = bcrypt.compareSync(password, user.password)
+    if (!passwordMatch) return res.sendStatus(401);
 
-  // create a jwt token
-  const exp = Date.now() + 1000 * 60 * 60 * 24 * 30;
-  const token = jwt.sign({ sub: user._id, exp }, process.env.SECRET);
+    // create a jwt token
+    const exp = Date.now() + 1000 * 60 * 60 * 24 * 30;
+    const token = jwt.sign({ sub: user._id, exp }, process.env.SECRET);
 
-  // set the cookie
-  res.cookie("Authorization", token, {
-    expires: new Date(exp),
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === "production"
-  })
+    // set the cookie
+    res.cookie("Authorization", token, {
+      expires: new Date(exp),
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === "production"
+    })
 
+    // send the jwt token
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400);
+  }
 
-  // send the jwt token
+}
+
+function logout(req, res) {
+  try {
+    // delete the cookie
+    res.clearCookie("Authorization");
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400)
+  }
+}
+
+function checkAuth(req, res) {
   res.sendStatus(200);
 }
 
-function logout(req, res) {}
-
 module.exports = {
-  signup, login, logout
+  signup, login, logout, checkAuth
 };

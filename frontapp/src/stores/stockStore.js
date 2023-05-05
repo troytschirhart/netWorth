@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios';
 
-const path = "http://localhost:3000/stocks";
-
 const stockStore = create((set) => ({
     stocks: null,
 
@@ -29,7 +27,7 @@ const stockStore = create((set) => ({
 
     fetchStocks: async () => {
         // fetch the stocks
-        const res = await axios.get(path);
+        const res = await axios.get('/stocks');
 
         // set the stocks to state
         set({
@@ -57,7 +55,7 @@ const stockStore = create((set) => ({
         const {createForm, stocks} = stockStore.getState();
         
         // Create the Stock
-        const res = await axios.post(path, createForm);
+        const res = await axios.post("/stocks", createForm);
     
         // Update state
         set({
@@ -75,8 +73,8 @@ const stockStore = create((set) => ({
 
     deleteStock: async (_id) => {
         // Delete the stock
-        console.log(`${path}/${_id}`);
-        const res = await axios.delete(`${path}/${_id}`)
+        console.log(`/stocks/${_id}`);
+        const res = await axios.delete(`/stocks/${_id}`)
         
         // get values from state
         const {stocks} = stockStore.getState();
@@ -131,7 +129,7 @@ const stockStore = create((set) => ({
          } = stockStore.getState();
     
         // send the update request
-        const res =  await axios.put(`${path}/${_id}`, {symbol, name, shares, cost});
+        const res =  await axios.put(`/stocks/${_id}`, {symbol, name, shares, cost});
     
         // update state
         // create a copy of the stocks
@@ -159,20 +157,6 @@ const stockStore = create((set) => ({
                 profit: 0
             }
         })
-
-        // setStocks(newStocks);
-    
-        // clear the update form
-        // setUpdateForm({
-        //   _id: null,
-        //   symbol: '',
-        //   name: '',
-        //   shares: 0,
-        //   cost: 0,
-        //   price: 0,
-        //   value: 0,
-        //   profit: 0
-        // })
     
     },
 

@@ -1,26 +1,33 @@
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-import stockStore from "../stores/stockStore";
-import Stocks from "./Stocks";
-import UpdateForm from "./UpdateForm";
-import CreateForm from "./CreateForm";
+import StocksPage from "../pages/StocksPage";
+import LoginPage from "../pages/LoginPage";
+import RequireAuth from "./RequireAuth";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import SignupPage from "../pages/SignupPage";
 
 function App() {
-  const store = stockStore();
- 
-  // Use Effect
-  useEffect(() => {
-    store.fetchStocks();
-  }, [])
 
   return (
     <div className="App">
-      <Stocks />
+      <BrowserRouter>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/signup">Signup</Link>
+          </li>
+        </ul>
 
-      <UpdateForm />
-
-      <CreateForm />
+        <Routes>
+          <Route index element={<RequireAuth><StocksPage /></RequireAuth>}/>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+      </BrowserRouter>
 
     </div>
   );
