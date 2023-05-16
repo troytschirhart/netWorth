@@ -8,7 +8,7 @@ const StockSchema = new mongoose.Schema({
     price: Number,
     value: Number,
     profit: Number,
-    // user: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
+    user: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
 });
 
 const Stock = mongoose.model('Stock', StockSchema)

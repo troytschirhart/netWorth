@@ -1,0 +1,107 @@
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.pageBackground {
+  min-height: 100vh;;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-image: url('../images/angled_dollar.jpeg');
+  background-size: contain;   
+}
+
+.titleContainer {
+  margin: 0 auto;
+}
+
+.navContainer {
+  margin: 0 auto;
+  display: block;
+  margin-top: -7vh;
+}
+
+.appTitle {
+  width: 50%;
+  text-align: center;
+  margin: 10px auto 0 auto;
+  background-color: #2a9e38;
+  /* opacity: .85; */
+  color: #E8E9C9;
+  text-shadow: 1px 1px black;
+  border: 1px solid black;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
+.navButton {
+  display: inline-block;
+  min-width: 10vw;
+  text-align: center;
+  background-color: #2a9e38;
+  /* opacity: .85; */
+  color: #E8E9C9;
+  text-shadow: 1px 1px black;
+  border: 1px solid black;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.leftButton {
+  margin-left: 2vw;
+}
+
+.rightButton {
+  /* position: absolute;
+  right: 2vw; */
+  float: right;
+  margin-right: 2vw;
+}
+
+.explanation {
+  margin: 15px auto;
+  width: 50%;
+  color: #E8E9C9;
+  text-shadow: 1px 1px black;
+  background-color: #434341;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #E8E9C9;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+  .navButton {
+      margin-top: 8vh;
+  }
+  .navContainer {
+      width: 50%;        
+  }
+  /* .inputRow {
+      display: flex;
+      flex-flow: column;
+  }
+  .tdLabel {
+      text-align: center;
+  }
+  .tdInput {
+      width: 98%;
+  } */
+}

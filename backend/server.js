@@ -37,11 +37,11 @@ app.get('/logout', usersController.logout);
 app.get('/check-auth', requireAuth, usersController.checkAuth);
 
 // routing for stocks
-app.get('/stocks', stocksController.fetchStocks);
-app.get('/stocks/:id', stocksController.fetchStock);
-app.post('/stocks', stocksController.createStock);
-app.put('/stocks/:id', stocksController.updateStock);
-app.delete('/stocks/:id', stocksController.deleteStock);
+app.get('/stocks', requireAuth, stocksController.fetchStocks);
+app.get('/stocks/:id', requireAuth, stocksController.fetchStock);
+app.post('/stocks', requireAuth, stocksController.createStock);
+app.put('/stocks/:id', requireAuth, stocksController.updateStock);
+app.delete('/stocks/:id', requireAuth, stocksController.deleteStock);
 
 // start the server
 app.listen(PORT, () => {
