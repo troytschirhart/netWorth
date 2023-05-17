@@ -12,20 +12,25 @@ export default function Header({page}) {
             <Link to="/login" className="navButton rightButton">Login</Link>
           </div>
         )
-        break;
-      case "login":
+      case "signup":
         return (
-          <div>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
+          <div className="navContainer">
+            <Link to="/front" className="navButton leftButton">Front</Link>
+            <Link to="/login" className="navButton rightButton">Login</Link>
           </div>
         )
-        break;
+      case "login":
+        return (
+          <div className="navContainer">
+            <Link to="/signup" className="navButton leftButton">Front</Link>
+            <Link to="/login" className="navButton rightButton">Login</Link>
+          </div>
+        )
       default: 
       return (
-        <div>
-          <Link to="/signup">Signup</Link>
-          <Link to="/login">Login</Link>
+        <div className="navContainer">
+          <Link to="/signup" className="navButton leftButton">Signup</Link>
+          <Link to="/login" className="navButton rightButton">Login</Link>
         </div>
       )      
     }

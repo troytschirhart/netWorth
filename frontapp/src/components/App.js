@@ -32,7 +32,7 @@ function App() {
         </ul> */}
 
         <Routes>
-          <Route index element={<FrontPage />}/>
+          <Route path="/front" index element={<FrontPage />}/>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/logout" element={<LogoutPage />} />

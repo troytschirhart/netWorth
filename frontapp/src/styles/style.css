@@ -77,6 +77,14 @@
   text-align: center;
 }
 
+.signupForm {
+  /* flex-flow: row; */
+}
+
+.input-error {
+  border: 2px solid red;
+}
+
 
 
 
