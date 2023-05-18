@@ -3,18 +3,30 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/user');
 
 async function signup(req, res) {
+  console.log('trying to signup');
   try {
     // get the username and password off of req body
     const {username, password} = req.body;
 
-    // hash the password
-    const hashedPassword = bcrypt.hashSync(password, 8);
+    // check the database to see if the username is already in use
+    const existingUser = await User.findOne({ username });
 
-    // create a user with the data
-    await User.create({ username, password: hashedPassword});
+    // if so, then return an error
+    if (existingUser) {
+      console.log("user exists");
+      return res.sendStatus(432);
 
-    // respond
-    res.sendStatus(200);
+          // otherwise, create a new user
+    } else {
+      // hash the password
+      const hashedPassword = bcrypt.hashSync(password, 8);
+
+      // create a user with the data
+      await User.create({ username, password: hashedPassword});
+
+      // respond
+      res.sendStatus(200);
+    }
   } catch (err) {
     console.log(err);
     return res.sendStatus(400);

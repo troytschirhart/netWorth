@@ -4,12 +4,19 @@ import axios from 'axios';
 const authStore = create((set) => ({
   loggedIn: null,
 
+  failedLogin: "",
+
   loginForm:  {
     username: "",
     password: ""
   },
 
   signupForm:  {
+    username: "",
+    password: ""
+  },
+
+  signupFormFormik: {
     username: "",
     password: ""
   },
@@ -41,18 +48,31 @@ const authStore = create((set) => ({
   },
 
   login: async (e) => {
-    const { loginForm } = authStore.getState();
+    try {
+      const { loginForm } = authStore.getState();
 
-    const res = await axios.post("/login", loginForm);
+      const res = await axios.post("/login", loginForm);
 
-    set({
-      loggedIn: true,
-      loginForm: {
-        username: "",
-        password: ""
-      }
-    });
+      set({
+        loggedIn: true,
+        failedLogin: "",
+        loginForm: {
+          username: "",
+          password: ""
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      set({
+        loggedIn: false,
+        failedLogin: "username and/or password are incorrect"
+      })
+    }
   }, 
+
+  getLoggedIn: () => {
+    return authStore.getState().loggedIn;
+  },
 
   checkAuth: async () => {
     try {
@@ -76,6 +96,33 @@ const authStore = create((set) => ({
     })
 
     console.log(res);
+  },
+
+  signupFormik: async (values) => {
+    try {
+      set({
+        signupFormFormik: { username: values.username, password: values.password }
+      })
+
+      const { signupFormFormik } = authStore.getState();
+
+      const res = await axios.post('/signup', signupFormFormik);
+
+      console.log("authstore status: " + res.status);
+
+      return res;
+    } catch (err) {
+      return err;
+    }
+  },
+
+  setLoginForm: (newLoginForm) => {
+    set ({
+      loginForm:  {
+        username: newLoginForm.username,
+        password: newLoginForm.password
+      }
+    })
   },
 
   logout: async () => {

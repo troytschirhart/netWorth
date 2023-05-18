@@ -78,11 +78,27 @@
 }
 
 .signupForm {
-  /* flex-flow: row; */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
 }
 
-.input-error {
+.signupFormInput {
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.inputError {
   border: 2px solid red;
+  border-radius: 3px;
+}
+
+.errorMessage {
+  font-size: 2vh;
+  color: red;
+  text-shadow: 1px 1px black;
 }
 
 
