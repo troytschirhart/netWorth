@@ -1,7 +1,7 @@
 import authStore from "../stores/authStore";
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
-import { signupSchema } from "../schemas/signupSchema";
+import { signupSchema } from "../schemas/allSchemas";
 import { useState } from "react";
 
 
@@ -10,15 +10,15 @@ export default function LoginForm() {
   const store = authStore();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
 
-    await store.login();
+  //   await store.login();
 
-    // navigate to home page
-    navigate("/");
+  //   // navigate to home page
+  //   navigate("/");
 
-  }
+  // }
 
   const onSubmit = async (values, actions) => {
     try {
@@ -56,18 +56,9 @@ export default function LoginForm() {
 
 
   return (
-    // <form onSubmit={handleLogin}>
-    //   <input onChange={store.updateLoginForm} value={store.loginForm.username} type="text" name="username" />
-    //   <input onChange={store.updateLoginForm} value={store.loginForm.password} type="password" name="password" />
-    //   <button type="submit">Login</button>
-    // </form>
-
 
   <div className="explanation">
     <form onSubmit={handleSubmit}>
-      {/* <input onChange={store.updateSignupForm} value={store.signupForm.username} type="text" name="username" />
-      <input onChange={store.updateSignupForm} value={store.signupForm.password} type="password" name="password" />
-      <button type="submit">Signup</button> */}
 
       <div className="signupForm">
         <label htmlFor="username">Username:&nbsp;</label>

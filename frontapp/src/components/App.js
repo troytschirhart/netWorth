@@ -10,6 +10,7 @@ import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import LogoutPage from "../pages/LogoutPage";
 import FrontPage from "../pages/FrontPage";
+import AddStockPage from "../pages/AddStockPage";
 
 function App() {
 
@@ -32,11 +33,13 @@ function App() {
         </ul> */}
 
         <Routes>
+          <Route path="/" element={<FrontPage />}/>
           <Route path="/front" index element={<FrontPage />}/>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/add" element={<AddStockPage />} />
         </Routes>
       </BrowserRouter>
 

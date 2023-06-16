@@ -1,7 +1,7 @@
 import authStore from "../stores/authStore"
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { signupSchema } from "../schemas/signupSchema";
+import { signupSchema } from "../schemas/allSchemas";
 import { useState } from "react";
 
 export default function SignupForm() {

@@ -4,6 +4,10 @@ import axios from 'axios';
 const stockStore = create((set) => ({
     stocks: null,
 
+    searchResults: null,
+
+    triedSearch: false,
+
     createForm: {
         symbol: '',
         name: '',
@@ -159,6 +163,23 @@ const stockStore = create((set) => ({
         })
     
     },
+
+    searchForTerm: async (searchTerm) => {
+        const searchUrl = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + searchTerm + '&apikey=IQMFD5277KOIHK9H';
+
+        const res = await axios.get(searchUrl, { withCredentials: false, });
+
+        set({
+            searchResults: res.data.bestMatches
+        }) 
+
+        return res.data.bestMatches;
+    },
+
+    setTriedSearch: (value) => {
+        console.log("value: " + value);
+        // set({triedSearch: value});
+    }
 
 }));
 

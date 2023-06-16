@@ -52,6 +52,7 @@
   text-decoration: none;
   padding-left: 1vw;
   padding-right: 1vw;
+  margin-top: 5px;
 }
 
 .leftButton {
@@ -75,6 +76,25 @@
   border-radius: 5px;
   border: 1px solid #E8E9C9;
   text-align: center;
+}
+
+.addCard {
+  margin: 15px auto;
+  width: 40%;
+  min-width: 50vh;
+  color: #E8E9C9;
+  text-shadow: 1px 1px black;
+  background-color: #434341;
+  padding: 5px;
+  padding-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #E8E9C9;
+  text-align: center;
+}
+
+.addContainer {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .signupForm {
@@ -101,9 +121,15 @@
   text-shadow: 1px 1px black;
 }
 
+.searchTable {
+  margin: 0 auto;
+  border: 1px solid #E8E9C9;
+}
 
-
-
+.searchTableCell {
+  border: 1px solid #E8E9C9;  
+  padding: 1px 5px;
+}
 
 
 
@@ -117,6 +143,9 @@
   }
   .navContainer {
       width: 50%;        
+  }
+  .addCard {
+    min-width: 300px;
   }
   /* .inputRow {
       display: flex;

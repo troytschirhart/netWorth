@@ -29,7 +29,7 @@ export default function Header({page}) {
       case "home":
         return (
           <div className="navContainer">
-            <Link to="/add" className="navButton leftButton">Add Stock</Link>
+            <Link to="/add" className="navButton leftButton">Add</Link>
             <Link to="/logout" className="navButton rightButton">Logout</Link>
           </div>
         )
