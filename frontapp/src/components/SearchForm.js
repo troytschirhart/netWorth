@@ -16,7 +16,7 @@ export default function SearchForm() {
       // call the api with the submitted searchTerm from the form
       await store.searchForTerm(values.searchTerm);
 
-      // set the tried search flag to true so that results or no results will display
+      // set the tried search flag to true so that results or "no results" will display
       setTriedSearch(true);
 
     } catch (err) {

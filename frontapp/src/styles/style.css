@@ -116,13 +116,14 @@
 }
 
 .errorMessage {
-  font-size: 2vh;
+  padding-left: 1vh;
+  font-size: 3vh;
   color: red;
   text-shadow: 1px 1px black;
 }
 
 .searchTable {
-  margin: 0 auto;
+  margin: 5px auto 0 auto;
   border: 1px solid #E8E9C9;
 }
 

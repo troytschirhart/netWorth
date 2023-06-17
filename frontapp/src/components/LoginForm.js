@@ -10,15 +10,6 @@ export default function LoginForm() {
   const store = authStore();
   const navigate = useNavigate();
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   await store.login();
-
-  //   // navigate to home page
-  //   navigate("/");
-
-  // }
 
   const onSubmit = async (values, actions) => {
     try {
