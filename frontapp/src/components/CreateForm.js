@@ -7,28 +7,45 @@ export default function CreateForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-
       actions.resetForm();
 
       // get the stock symbol from values
+      const stockSymbol = values.symbol;
 
       // use the stock symbol to pull current price per share from the api
-      const pricePerShare = 0; // api result
+      const pricePerShare = await store.getCurrentPrice(stockSymbol); // api result
 
       // use pricePerShare * shares to get the value of the stock position
-      const stockValue = pricePerShare * values.shares;
+      const stockValue = (Math.round(pricePerShare * values.shares * 100) / 100).toFixed(2);
 
       // use stockValue - cost to get the profit
-      const stockProfit = stockValue - values.cost;
+      const stockProfit = (Math.round((stockValue - values.cost) * 100) / 100).toFixed(2);
 
       // set all of the values into an object
+      const newStock = {
+        symbol: values.symbol,
+        name: values.name,
+        shares: values.shares,
+        cost: values.cost,
+        price: pricePerShare,
+        value: stockValue,
+        profit: stockProfit
+      }
+      console.log(JSON.stringify(newStock));
       
       // use the object to set createForm values
+      await store.setCreateForm(newStock);
 
       // create a stock in the db using the createForm object
+      await store.createStock();
 
-
-
+      // symbol: '',
+      // name: '',
+      // shares: null,
+      // cost: null,
+      // price: 0,
+      // value: 0,
+      // profit: 0,
 
 
       // put the values together into createForm
@@ -61,10 +78,10 @@ export default function CreateForm() {
         {!store.updateForm._id && <div>
         <h2>Add Stock</h2>
 
-        <form onSubmit={store.createStock}>
+        <form onSubmit={handleSubmit}>
 
           <div className="signupForm">
-            <label htmlFor="symbol">Symbol:&nbsp;</label>
+            <label htmlFor="symbol">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symbol:&nbsp;</label>
             <input 
               value={values.symbol} 
               onChange={handleChange}
@@ -77,7 +94,7 @@ export default function CreateForm() {
           </div>
 
           <div className="signupForm">
-            <label htmlFor="name">&nbsp;&nbsp;Name:&nbsp;</label>
+            <label htmlFor="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name:&nbsp;</label>
             <input 
               value={values.name} 
               onChange={handleChange}
@@ -90,7 +107,7 @@ export default function CreateForm() {
           </div>
 
           <div className="signupForm">
-            <label htmlFor="shares">&nbsp;Shares:&nbsp;</label>
+            <label htmlFor="shares">Shares Owned:&nbsp;</label>
             <input 
               value={values.shares} 
               onChange={handleChange}
@@ -103,7 +120,7 @@ export default function CreateForm() {
           </div>
 
           <div className="signupForm">
-            <label htmlFor="cost">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cost:&nbsp;</label>
+            <label htmlFor="cost">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total Paid:&nbsp;$&nbsp;</label>
             <input 
               value={values.cost} 
               onChange={handleChange}

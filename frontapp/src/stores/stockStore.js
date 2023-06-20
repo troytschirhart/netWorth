@@ -11,8 +11,8 @@ const stockStore = create((set) => ({
     createForm: {
         symbol: '',
         name: '',
-        shares: 0,
-        cost: 0,
+        shares: null,
+        cost: null,
         price: 0,
         value: 0,
         profit: 0,
@@ -52,8 +52,8 @@ const stockStore = create((set) => ({
         })
     },
     
-    createStock: async (e) => {
-        e.preventDefault();
+    createStock: async () => {
+        // e.preventDefault();
 
         // get values from state
         const {createForm, stocks} = stockStore.getState();
@@ -62,17 +62,23 @@ const stockStore = create((set) => ({
         const res = await axios.post("/stocks", createForm);
     
         // Update state
-        set({
-            stocks: [...stocks, res.data.stock],
-            createForm: {
-                symbol: '',
-                name: '',
-                shares: 0,
-                cost: 0,
-                price: 0,
-                value: 0,
-                profit: 0
-        }})
+        if (stocks === null) {
+            set({
+                stocks: res.data.stock,
+            })
+        } else {
+            set({
+                stocks: [...stocks, res.data.stock],
+                createForm: {
+                    symbol: '',
+                    name: '',
+                    shares: 0,
+                    cost: 0,
+                    price: 0,
+                    value: 0,
+                    profit: 0
+            }})
+        }
     },
 
     deleteStock: async (_id) => {
@@ -179,7 +185,35 @@ const stockStore = create((set) => ({
     setTriedSearch: (value) => {
         console.log("value: " + value);
         // set({triedSearch: value});
-    }
+    },
+
+    getCurrentPrice: async (symbol) => {
+        const quoteUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=IQMFD5277KOIHK9H";
+
+        const res = await axios.get(quoteUrl, { withCredentials: false, });
+
+        const quotedPrice = res["data"]["Global Quote"]["05. price"];
+
+        const stockPrice = (Math.round(quotedPrice * 100) / 100).toFixed(2);
+
+        console.log(stockPrice);
+
+        return stockPrice;
+    },
+
+    setCreateForm: (newStock) => {
+        set ({
+            createForm: {
+                symbol: newStock.symbol,
+                name: newStock.name,
+                shares: newStock.shares,
+                cost: newStock.cost,
+                price: newStock.price,
+                value: newStock.value,
+                profit: newStock.profit,
+            },
+        })
+      },
 
 }));
 

@@ -9,7 +9,7 @@ const createSchema = yup.object().shape({
   symbol: yup.string().required("Stock symbol is required"),
   name: yup.string().required("Stock name is required"),
   shares: yup.number("Must be a number").required("Number of shares is required"),
-  cost: yup.number("Must be a number").required("Total purchase cost is required"),
+  cost: yup.number("Must be a number").required("Total purchase cost is required").min(.01),
 })
 
 const searchSchema = yup.object().shape({
