@@ -33,8 +33,7 @@ const fetchStock = async (req, res) => {
 const createStock = async (req, res) => {
     try {
         // get the sent in data off of request body
-        const {symbol, name, shares, cost} = req.body;
-        const price = value = profit = 0;
+        const {symbol, name, shares, cost, price, value, profit} = req.body;
 
         // create a stock
         const stock = await Stock.create({symbol, name, shares, cost, price, value, profit, user: req.user._id});

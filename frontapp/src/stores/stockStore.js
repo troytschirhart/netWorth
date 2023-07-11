@@ -6,7 +6,9 @@ const stockStore = create((set) => ({
 
     searchResults: null,
 
-    triedSearch: false,
+    // triedSearch: false,
+
+    // badSymbol: false,
 
     createForm: {
         symbol: '',
@@ -57,6 +59,7 @@ const stockStore = create((set) => ({
 
         // get values from state
         const {createForm, stocks} = stockStore.getState();
+        console.log("createStock createForm: " + JSON.stringify(createForm));
         
         // Create the Stock
         const res = await axios.post("/stocks", createForm);
@@ -182,21 +185,25 @@ const stockStore = create((set) => ({
         return res.data.bestMatches;
     },
 
-    setTriedSearch: (value) => {
-        console.log("value: " + value);
-        // set({triedSearch: value});
-    },
+    // setTriedSearch: (value) => {
+    //     console.log("value: " + value);
+    //     // set({triedSearch: value});
+    // },
 
     getCurrentPrice: async (symbol) => {
         const quoteUrl = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=IQMFD5277KOIHK9H";
 
         const res = await axios.get(quoteUrl, { withCredentials: false, });
 
-        const quotedPrice = res["data"]["Global Quote"]["05. price"];
+        let quotedPrice;
+
+        if (res["data"]["Global Quote"]["05. price"] === undefined) {         
+            quotedPrice = -1;
+        } else {
+            quotedPrice = res["data"]["Global Quote"]["05. price"];
+        }
 
         const stockPrice = (Math.round(quotedPrice * 100) / 100).toFixed(2);
-
-        console.log(stockPrice);
 
         return stockPrice;
     },
@@ -212,7 +219,11 @@ const stockStore = create((set) => ({
                 value: newStock.value,
                 profit: newStock.profit,
             },
-        })
+        });
+        // get values from state
+        const {createForm} = stockStore.getState();
+
+        console.log(JSON.stringify(createForm));
       },
 
 }));

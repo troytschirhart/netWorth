@@ -1,56 +1,63 @@
 import stockStore from "../stores/stockStore"
 import { useFormik } from "formik";
 import { createSchema } from "../schemas/allSchemas";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateForm() {
   const store = stockStore();
+  const navigate = useNavigate();
+  const [badSymbol, setBadSymbol] = useState(false);
 
   const onSubmit = async (values, actions) => {
     try {
-      actions.resetForm();
 
       // get the stock symbol from values
       const stockSymbol = values.symbol;
 
       // use the stock symbol to pull current price per share from the api
-      const pricePerShare = await store.getCurrentPrice(stockSymbol); // api result
+      let pricePerShare = await store.getCurrentPrice(stockSymbol); // api result
 
-      // use pricePerShare * shares to get the value of the stock position
-      const stockValue = (Math.round(pricePerShare * values.shares * 100) / 100).toFixed(2);
+      if (pricePerShare !== "-1.00") {
 
-      // use stockValue - cost to get the profit
-      const stockProfit = (Math.round((stockValue - values.cost) * 100) / 100).toFixed(2);
+        // clear the add form
+        actions.resetForm();
 
-      // set all of the values into an object
-      const newStock = {
-        symbol: values.symbol,
-        name: values.name,
-        shares: values.shares,
-        cost: values.cost,
-        price: pricePerShare,
-        value: stockValue,
-        profit: stockProfit
+        // set the pricePerShare to be fixed at 2 decimal places
+        pricePerShare = (Math.round(pricePerShare * 100) / 100).toFixed(2);
+
+        // use pricePerShare * shares to get the value of the stock position
+        const stockValue = (Math.round(pricePerShare * values.shares * 100) / 100).toFixed(2);
+  
+        // use stockValue - cost to get the profit
+        const stockProfit = (Math.round((stockValue - values.cost) * 100) / 100).toFixed(2);
+  
+        // set all of the values into an object
+        const newStock = {
+          symbol: values.symbol,
+          name: values.name,
+          shares: values.shares,
+          cost: values.cost,
+          price: pricePerShare,
+          value: stockValue,
+          profit: stockProfit
+        }
+        
+        // use the object to set createForm values
+        await store.setCreateForm(newStock);
+  
+        // create a stock in the db using the createForm object
+        await store.createStock();
+
+        // go to the home page to show the spreadsheet with the new stock included
+        navigate("/home");
+
+      } else {
+
+        // set the flag to display an error for a symbol not found
+        setBadSymbol(true);
+
       }
-      console.log(JSON.stringify(newStock));
-      
-      // use the object to set createForm values
-      await store.setCreateForm(newStock);
-
-      // create a stock in the db using the createForm object
-      await store.createStock();
-
-      // symbol: '',
-      // name: '',
-      // shares: null,
-      // cost: null,
-      // price: 0,
-      // value: 0,
-      // profit: 0,
-
-
-      // put the values together into createForm
-      // set createForm in state
-      // call the function to create a stock
 
     } catch (err) {
       console.log(err);
@@ -137,6 +144,8 @@ export default function CreateForm() {
           </div>
 
         </form>
+
+        {badSymbol && <h2 className="errorMessage">Symbol Not Found</h2>}
         
       </div>}
     </div>

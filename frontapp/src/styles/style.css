@@ -132,6 +132,35 @@
   padding: 1px 5px;
 }
 
+.stockTable {
+  margin: 20px auto 0 auto;
+  background-color: #2a9e38;
+  color: #E8E9C9;
+  text-shadow: 1px 1px black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 50%;
+  max-width: 98%;
+}
+
+.tableScroll {
+  overflow-x:auto;
+}
+
+.tableCellCenter {
+  text-align: center;
+}
+
+.tableCellRight {
+  text-align: right;
+}
+
+.totals {
+  font-size: 1.2rem;
+  box-shadow: 2px 4px #434341;
+}
+
 
 
 
